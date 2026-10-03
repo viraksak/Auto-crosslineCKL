@@ -1,0 +1,1600 @@
+/* ========================================================
+   Cambodian School Official A4 Exam Form Stylesheet
+   Fonts: 
+   - Moul / Khmer OS Muol Light (Header & Titles)
+   - Khmer OS Siemreap / Siemreap (Table & Footer)
+   ======================================================== */
+
+@font-face {
+    font-family: 'Khmer OS Muol Light';
+    src: local('Khmer OS Muol Light'), local('Khmer OS Muol'), local('Moul');
+}
+
+@font-face {
+    font-family: 'Khmer OS Siemreap';
+    src: local('Khmer OS Siemreap'), local('Siemreap'), url('https://fonts.gstatic.com/s/siemreap/v22/x3dZke985bV9kY3yF6I7.woff2') format('woff2');
+}
+
+:root {
+    --primary-color: #1e3a8a;
+    --primary-hover: #1d4ed8;
+    --success-color: #16a34a;
+    --danger-color: #dc2626;
+    --bg-page: #f1f5f9;
+    --border-color: #cbd5e1;
+    --font-siemreap: 'Khmer OS Siemreap', 'Siemreap', 'Noto Sans Khmer', sans-serif;
+    --font-moul: 'Khmer OS Muol Light', 'Moul', serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-siemreap);
+    background-color: var(--bg-page);
+    color: #000000;
+    line-height: 1.5;
+    min-height: 100vh;
+}
+
+.font-moul {
+    font-family: var(--font-moul) !important;
+}
+
+.font-siemreap {
+    font-family: var(--font-siemreap) !important;
+}
+
+/* ========================================================
+   App Control Header & Toolbar (Screen Only)
+   ======================================================== */
+.app-toolbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--border-color);
+    padding: 14px 24px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.toolbar-title-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+}
+
+.toolbar-title-section h1 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.toolbar-title-section p {
+    font-size: 0.88rem;
+    color: #64748b;
+}
+
+.toolbar-stats-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 8px 14px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.rule-mini-badge {
+    font-size: 0.9rem;
+    color: #334155;
+}
+
+.rule-title {
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-right: 4px;
+}
+
+.text-success { color: var(--success-color); font-weight: 700; }
+.text-danger { color: var(--danger-color); font-weight: 700; }
+
+.stats-pills {
+    display: flex;
+    gap: 8px;
+}
+
+.pill {
+    padding: 3px 12px;
+    border-radius: 9999px;
+    font-size: 0.86rem;
+    font-weight: 500;
+}
+
+.pill-total { background-color: #e2e8f0; color: #334155; }
+.pill-pass { background-color: #dcfce7; color: #166534; }
+.pill-fail { background-color: #fee2e2; color: #991b1b; }
+
+.toolbar-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.actions-left,
+.actions-right {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.search-input-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input-box svg {
+    position: absolute;
+    left: 10px;
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+.search-input-box input {
+    padding: 7px 30px 7px 32px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-family: var(--font-siemreap);
+    font-size: 0.88rem;
+    outline: none;
+    width: 220px;
+    background: #ffffff;
+}
+
+.search-input-box input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.1);
+}
+
+.search-input-box button {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    color: #94a3b8;
+    cursor: pointer;
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-family: var(--font-siemreap);
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: #ffffff;
+}
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-image {
+    background-color: #059669;
+    color: #ffffff;
+}
+.btn-image:hover {
+    background-color: #047857;
+}
+
+.btn-outline {
+    background-color: #ffffff;
+    color: #334155;
+    border-color: var(--border-color);
+}
+.btn-outline:hover {
+    background-color: #f8fafc;
+    border-color: #94a3b8;
+}
+.btn-outline.active {
+    background-color: #eff6ff;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.12);
+    font-weight: 600;
+}
+
+.btn-danger-outline {
+    background-color: #ffffff;
+    color: var(--danger-color);
+    border-color: #fca5a5;
+    padding: 7px 10px;
+}
+.btn-danger-outline:hover {
+    background-color: #fee2e2;
+}
+
+/* Dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 4px);
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    min-width: 210px;
+    z-index: 50;
+    overflow: hidden;
+}
+
+.dropdown.open .dropdown-menu {
+    display: block;
+}
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 8px 14px;
+    background: none;
+    border: none;
+    font-family: var(--font-siemreap);
+    font-size: 0.86rem;
+    color: #1e293b;
+    cursor: pointer;
+}
+.dropdown-item:hover {
+    background-color: #f1f5f9;
+    color: var(--primary-color);
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: #e2e8f0;
+    margin: 4px 0;
+}
+
+/* Banner */
+.view-status-banner {
+    margin-top: 10px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    background-color: #eff6ff;
+    color: var(--primary-color);
+    border: 1px solid #bfdbfe;
+}
+.view-status-banner.success {
+    background-color: #ecfdf5;
+    color: #065f46;
+    border-color: #a7f3d0;
+}
+.view-status-banner.error {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+/* ========================================================
+   A4 SHEET PREVIEW CONTAINER
+   Exact replica of the official exam sheet layout
+   ======================================================== */
+.a4-preview-wrapper {
+    padding: 24px 12px 60px 12px;
+    display: flex;
+    justify-content: center;
+}
+
+.a4-sheet {
+    width: 210mm;
+    min-height: 297mm;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    padding: 12mm 14mm 16mm 14mm;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: column;
+    color: #000000;
+    position: relative;
+    border: 1px solid #e2e8f0;
+}
+
+/* Drag Over styling */
+.a4-preview-wrapper.drag-over .a4-sheet {
+    outline: 3px dashed var(--primary-color);
+    background-color: #f8faff;
+}
+
+/* Top Official Header (Font: Moul) */
+.a4-top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.dept-info {
+    text-align: left;
+    font-family: var(--font-moul);
+}
+
+.dept-line1 {
+    font-family: var(--font-moul);
+    font-size: 13px;
+    color: #000000;
+    line-height: 1.45;
+}
+
+.dept-line2 {
+    font-family: var(--font-moul);
+    font-size: 14px;
+    color: #000000;
+    line-height: 1.45;
+}
+
+.kingdom-info {
+    text-align: center;
+    font-family: var(--font-moul);
+}
+
+.kingdom-title {
+    font-family: var(--font-moul);
+    font-size: 14.5px;
+    color: #000000;
+    line-height: 1.4;
+    letter-spacing: 0.5px;
+}
+
+.kingdom-motto {
+    font-family: var(--font-moul);
+    font-size: 13px;
+    color: #000000;
+    line-height: 1.4;
+    margin-top: 2px;
+}
+
+.motto-ribbon {
+    margin: 2px auto 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+/* Title & Session (Font: Moul) */
+.a4-title-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 14px;
+    padding-top: 4px;
+    font-family: var(--font-moul);
+}
+
+.room-number {
+    font-family: var(--font-moul);
+    font-size: 13.5px;
+    min-width: 90px;
+    text-align: left;
+}
+
+.main-exam-title {
+    text-align: center;
+    flex-grow: 1;
+}
+
+.exam-title-text {
+    font-family: var(--font-moul);
+    font-size: 14px;
+    color: #000000;
+    line-height: 1.4;
+    margin-bottom: 2px;
+}
+
+.exam-session-text {
+    font-family: var(--font-moul);
+    font-size: 13px;
+    color: #000000;
+}
+
+.room-placeholder {
+    min-width: 90px;
+}
+
+/* Editable text focus */
+[contenteditable="true"]:hover {
+    outline: 1px dashed #94a3b8;
+    background-color: rgba(241, 245, 249, 0.4);
+    cursor: text;
+}
+[contenteditable="true"]:focus {
+    outline: 1.5px solid var(--primary-color);
+    background-color: #ffffff;
+}
+
+/* ========================================================
+   Student Exam Table (Font: Khmer OS Siemreap)
+   ======================================================== */
+.a4-table-wrapper {
+    position: relative;
+    font-family: var(--font-siemreap);
+}
+
+.exam-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border: 1.5px solid #000000;
+    text-align: center;
+    font-family: var(--font-siemreap);
+    font-size: 13px;
+    line-height: 1.25;
+}
+
+.exam-table th,
+.exam-table td {
+    border: 1px solid #000000;
+    padding: 4.5px 4px;
+    vertical-align: middle;
+    position: relative;
+}
+
+.exam-table th {
+    font-weight: 700;
+    background-color: #ffffff;
+    border-bottom: 1.5px solid #000000;
+    font-size: 13.5px;
+    padding: 6px 4px;
+    font-family: var(--font-siemreap);
+}
+
+/* Column Widths matching the image */
+.th-no { width: 44px; }
+.th-name { text-align: left !important; padding-left: 10px !important; width: auto; }
+.td-name { text-align: left !important; padding-left: 10px !important; font-weight: 500; }
+.th-gender { width: 46px; }
+.th-class { width: 70px; }
+.th-score { width: 52px; font-weight: 600; }
+.th-total, .td-total { width: 54px; font-weight: 700; background-color: #fafbfc; }
+.th-result { width: 80px; }
+
+/* PASS Visual Rule: Circle around student number */
+.pass-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 26px;
+    height: 26px;
+    padding: 0 4px;
+    border: 1.5px solid #dc2626;
+    border-radius: 50%;
+    color: #dc2626;
+    font-weight: 700;
+    line-height: 1;
+    margin: 0 auto;
+}
+
+.fail-number {
+    display: inline-block;
+    font-weight: 600;
+}
+
+/* FAIL Visual Rule: Continuous red line across entire row matching user image */
+.fail-row td {
+    color: #64748b;
+    position: relative;
+}
+
+.fail-row td::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 2px;
+    background-color: #dc2626;
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Badges */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.badge-pass {
+    color: #15803d;
+}
+.badge-fail {
+    color: var(--danger-color);
+}
+
+/* Score editable cells */
+.score-cell {
+    outline: none;
+    font-weight: 600;
+}
+.score-cell:focus {
+    background-color: #fef08a !important;
+    outline: 1.5px solid #ca8a04;
+}
+
+/* Empty Notice */
+.empty-notice {
+    padding: 60px 20px;
+    text-align: center;
+    color: #64748b;
+}
+.empty-notice p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+.empty-notice span {
+    font-size: 0.9rem;
+}
+
+/* ========================================================
+   Footer Section (Font: Khmer OS Siemreap)
+   Always directly next to the end of the table
+   ======================================================== */
+.a4-footer-section {
+    margin-top: 6px; /* Always directly next to the end of the table */
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-siemreap);
+}
+
+/* Footer Columns Row (Left Verifiers, Right Stats + Date/Principal) */
+.footer-columns-row,
+.footer-bottom-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    gap: 16px;
+}
+
+/* Left Verifiers: 3 lines stacked vertically starting on exact equal line with summary */
+.footer-verifiers-col {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: 0;
+    text-align: left;
+}
+
+.verifier-line {
+    font-family: var(--font-siemreap);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #000000;
+    line-height: 1.5;
+    text-align: left;
+    white-space: pre-wrap;
+    padding: 0 4px;
+    margin: 0;
+    border-radius: 3px;
+    transition: background-color 0.15s ease;
+}
+
+.verifier-line:hover {
+    background-color: rgba(30, 58, 138, 0.05);
+}
+
+.verifier-line:focus {
+    background-color: rgba(30, 58, 138, 0.1);
+    outline: 1.5px solid var(--primary-color);
+}
+
+.btn-add-verifier {
+    display: none; /* Hidden by default */
+    font-family: var(--font-siemreap);
+    font-size: 11px;
+    color: var(--primary-color);
+    background: #f1f5f9;
+    border: 1px dashed #94a3b8;
+    border-radius: 3px;
+    padding: 2px 8px;
+    cursor: pointer;
+    width: fit-content;
+    margin-top: 4px;
+    opacity: 0.85;
+    transition: all 0.15s ease;
+    user-select: none;
+}
+
+.btn-add-verifier:hover {
+    opacity: 1;
+    background: #e2e8f0;
+    border-color: var(--primary-color);
+}
+
+/* Show + បន្ថែមបន្ទាត់ only when Edit Mode is active */
+body.edit-mode-on .btn-add-verifier,
+.a4-sheet.edit-mode-on .btn-add-verifier {
+    display: inline-block;
+}
+
+/* In Edit Mode, highlight editable template fields on hover */
+body.edit-mode-on .a4-sheet [contenteditable="true"]:hover {
+    outline: 1.5px dashed var(--primary-color);
+    background-color: rgba(30, 58, 138, 0.04);
+    border-radius: 2px;
+}
+
+/* Right Column: Top Summary & Bottom Date / Principal */
+.footer-right-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    margin-left: auto;
+}
+
+/* Summary Lines Aligned Right Matching Image */
+.footer-stats-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-bottom: 12px;
+    gap: 4px;
+    padding-top: 0;
+}
+
+.summary-line {
+    font-family: var(--font-siemreap);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #000000;
+    line-height: 1.5;
+    text-align: right;
+    padding: 0 4px;
+    margin: 0;
+}
+
+/* Legacy Signatures Row */
+.footer-signatures-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    gap: 16px;
+}
+
+.sign-col {
+    flex: 1;
+    text-align: center;
+}
+
+.sign-role {
+    font-family: var(--font-siemreap);
+    font-size: 12.8px;
+    font-weight: 600;
+    color: #000000;
+    line-height: 1.4;
+}
+
+.sign-space {
+    height: 45px;
+}
+
+/* Bottom Date & Principal Signature (Aligned next to bottom right edge) */
+.footer-bottom-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: -4px;
+    padding-bottom: 4px;
+}
+
+.date-lunar {
+    font-family: var(--font-siemreap);
+    font-size: 12.5px;
+    color: #000000;
+    line-height: 1.4;
+    text-align: center;
+    width: 100%;
+}
+
+.date-solar {
+    font-family: var(--font-siemreap);
+    font-size: 12.8px;
+    font-weight: 600;
+    color: #000000;
+    line-height: 1.4;
+    margin-top: 2px;
+    text-align: center;
+    width: 100%;
+}
+
+.sign-principal {
+    font-family: var(--font-moul);
+    font-size: 14px;
+    color: #000000;
+    margin-top: 6px;
+    text-align: center;
+    width: 250px;
+}
+
+.principal-sign-space {
+    height: 35px;
+}
+
+/* ========================================================
+   Auto-Fit Modes: Keeps exact A4 paper format when student count is large
+   ======================================================== */
+.a4-sheet.dense-mode .a4-top-header {
+    margin-bottom: 8px;
+}
+.a4-sheet.dense-mode .a4-title-section {
+    margin-bottom: 8px;
+}
+.a4-sheet.dense-mode .exam-table th,
+.a4-sheet.dense-mode .exam-table td {
+    padding: 2.5px 3px;
+    font-size: 11.5px;
+}
+.a4-sheet.dense-mode .pass-circle {
+    min-width: 22px;
+    height: 22px;
+    font-size: 11px;
+}
+.a4-sheet.dense-mode .a4-footer-section {
+    margin-top: 4px;
+}
+.a4-sheet.dense-mode .footer-columns-row,
+.a4-sheet.dense-mode .footer-bottom-grid {
+    margin-top: 2px;
+    align-items: flex-start;
+}
+.a4-sheet.dense-mode .footer-bottom-date {
+    margin-left: auto;
+    margin-right: -4px;
+}
+.a4-sheet.dense-mode .footer-verifiers-col {
+    gap: 3px;
+    padding-top: 0;
+}
+.a4-sheet.dense-mode .verifier-line,
+.a4-sheet.dense-mode .summary-line {
+    font-size: 12px;
+    line-height: 1.4;
+}
+.a4-sheet.dense-mode .footer-stats-block {
+    margin-bottom: 8px;
+    gap: 3px;
+}
+.a4-sheet.dense-mode .footer-signatures-row {
+    margin-bottom: 6px;
+}
+.a4-sheet.dense-mode .sign-space {
+    height: 25px;
+}
+.a4-sheet.dense-mode .principal-sign-space {
+    height: 22px;
+}
+
+.a4-sheet.ultra-dense-mode .a4-top-header {
+    margin-bottom: 4px;
+}
+.a4-sheet.ultra-dense-mode .dept-line1,
+.a4-sheet.ultra-dense-mode .dept-line2 {
+    font-size: 12px;
+}
+.a4-sheet.ultra-dense-mode .kingdom-title {
+    font-size: 13px;
+}
+.a4-sheet.ultra-dense-mode .a4-title-section {
+    margin-bottom: 4px;
+}
+.a4-sheet.ultra-dense-mode .exam-title-text {
+    font-size: 12.5px;
+}
+.a4-sheet.ultra-dense-mode .exam-session-text {
+    font-size: 11px;
+}
+.a4-sheet.ultra-dense-mode .exam-table th,
+.a4-sheet.ultra-dense-mode .exam-table td {
+    padding: 1.5px 2px;
+    font-size: 10px;
+    line-height: 1.15;
+}
+.a4-sheet.ultra-dense-mode .pass-circle {
+    min-width: 18px;
+    height: 18px;
+    font-size: 9.5px;
+    border-width: 1px;
+}
+.a4-sheet.ultra-dense-mode .a4-footer-section {
+    margin-top: 2px;
+}
+.a4-sheet.ultra-dense-mode .footer-columns-row,
+.a4-sheet.ultra-dense-mode .footer-bottom-grid {
+    margin-top: 2px;
+    align-items: flex-start;
+}
+.a4-sheet.ultra-dense-mode .footer-bottom-date {
+    margin-left: auto;
+    margin-right: -4px;
+}
+.a4-sheet.ultra-dense-mode .footer-verifiers-col {
+    gap: 2px;
+    padding-top: 0;
+}
+.a4-sheet.ultra-dense-mode .verifier-line,
+.a4-sheet.ultra-dense-mode .summary-line {
+    font-size: 10.5px;
+    line-height: 1.3;
+    padding: 0 2px;
+}
+.a4-sheet.ultra-dense-mode .footer-signatures-row {
+    margin-bottom: 4px;
+}
+.a4-sheet.ultra-dense-mode .sign-space {
+    height: 16px;
+}
+.a4-sheet.ultra-dense-mode .footer-stats-block {
+    margin-bottom: 4px;
+    gap: 2px;
+}
+.a4-sheet.ultra-dense-mode .date-lunar,
+.a4-sheet.ultra-dense-mode .date-solar {
+    font-size: 10.5px;
+}
+.a4-sheet.ultra-dense-mode .sign-principal {
+    font-size: 12px;
+    margin-top: 3px;
+}
+.a4-sheet.ultra-dense-mode .principal-sign-space {
+    height: 16px;
+}
+
+/* ========================================================
+   Image Preview Modal
+   ======================================================== */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-container {
+    background: #ffffff;
+    border-radius: 12px;
+    max-width: 900px;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    animation: modalFadeIn 0.25s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+}
+
+.modal-header h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.modal-close-btn {
+    background: transparent;
+    border: none;
+    font-size: 26px;
+    color: #64748b;
+    cursor: pointer;
+    line-height: 1;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.modal-close-btn:hover {
+    color: #0f172a;
+    background: #e2e8f0;
+}
+
+.modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background: #f1f5f9;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.modal-preview-img {
+    max-width: 100%;
+    height: auto;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    background: #ffffff;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    border-top: 1px solid #e2e8f0;
+    background: #ffffff;
+}
+
+.modal-hint {
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+.modal-footer-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* ========================================================
+   Feature Selector & Management Bar (Toolbar)
+   ======================================================== */
+.toolbar-feature-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 10px 0;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.feature-bar-left,
+.feature-bar-right {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.feature-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.feature-selector-wrap {
+    position: relative;
+    display: inline-block;
+}
+
+.feature-select-dropdown {
+    font-family: var(--font-siemreap);
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #1e3a8a;
+    background-color: #eff6ff;
+    border: 1.5px solid #3b82f6;
+    border-radius: 6px;
+    padding: 7px 32px 7px 12px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.15s ease-in-out;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%231e3a8a' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    max-width: 420px;
+}
+
+.feature-select-dropdown:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.btn-sample {
+    background-color: #d97706;
+    color: #ffffff;
+    border: 1px solid #b45309;
+    font-weight: 600;
+}
+.btn-sample:hover {
+    background-color: #b45309;
+}
+
+.btn-save-feature {
+    background-color: #0284c7;
+    color: #ffffff;
+    border: 1px solid #0369a1;
+    font-weight: 600;
+}
+.btn-save-feature:hover {
+    background-color: #0369a1;
+}
+
+.btn-sm {
+    padding: 4px 10px;
+    font-size: 0.8rem;
+}
+
+/* Feature Form & Modals */
+.modal-form-container,
+.modal-manage-container,
+.modal-guide-container {
+    max-width: 760px;
+}
+
+.modal-form-body {
+    max-height: 75vh;
+    overflow-y: auto;
+    padding: 20px 24px;
+    background: #ffffff;
+}
+
+.form-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group.flex-1 { flex: 1; min-width: 140px; }
+.form-group.flex-2 { flex: 2; min-width: 240px; }
+.form-group.flex-3 { flex: 3; min-width: 320px; }
+
+.form-label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.form-control {
+    font-family: var(--font-siemreap);
+    font-size: 0.88rem;
+    padding: 7px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: #0f172a;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.15);
+}
+
+.form-hint {
+    font-size: 0.78rem;
+    color: #64748b;
+}
+
+.form-divider {
+    height: 1px;
+    background-color: #e2e8f0;
+    margin: 16px 0;
+}
+
+.form-section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.form-section-title h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.subjects-builder-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 2px;
+}
+
+.subject-builder-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 6px 10px;
+}
+
+.subject-builder-row input {
+    font-family: var(--font-siemreap);
+    font-size: 0.86rem;
+    padding: 5px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+}
+
+.subject-builder-row .subj-name {
+    flex: 2;
+    min-width: 140px;
+}
+
+.subject-builder-row .subj-max {
+    width: 90px;
+}
+
+.btn-remove-subj {
+    background: transparent;
+    border: none;
+    color: #ef4444;
+    font-size: 1.2rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+.btn-remove-subj:hover {
+    background: #fee2e2;
+}
+
+.computed-columns-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.checkbox-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background-color: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 9999px;
+    font-size: 0.86rem;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s;
+}
+
+.checkbox-pill:hover {
+    background-color: #e2e8f0;
+}
+
+.checkbox-pill input:checked + span {
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* Manage Features List */
+.manage-features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 60vh;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.manage-feature-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    transition: all 0.15s;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.manage-feature-card:hover {
+    border-color: #94a3b8;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.manage-feature-card.active-card {
+    border-color: #3b82f6;
+    background-color: #eff6ff;
+}
+
+.feature-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 250px;
+}
+
+.feature-card-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.feature-card-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #0f172a;
+}
+
+.feature-badge-preset {
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    background-color: #e0f2fe;
+    color: #0369a1;
+    font-weight: 600;
+}
+
+.feature-badge-custom {
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    background-color: #fef3c7;
+    color: #b45309;
+    font-weight: 600;
+}
+
+.feature-card-meta {
+    font-size: 0.82rem;
+    color: #64748b;
+}
+
+.feature-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Sample Guide Preview */
+.guide-body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 20px;
+    background: #ffffff;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.guide-intro p {
+    font-size: 0.9rem;
+    color: #334155;
+    margin: 0;
+}
+
+.guide-table-preview-wrap {
+    overflow-x: auto;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background: #f8fafc;
+}
+
+.guide-preview-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+}
+
+.guide-preview-table th {
+    background-color: #e2e8f0;
+    color: #1e293b;
+    padding: 8px 10px;
+    border: 1px solid #cbd5e1;
+    text-align: center;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.guide-preview-table td {
+    padding: 6px 10px;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.guide-tips {
+    background-color: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.86rem;
+    color: #92400e;
+}
+
+.guide-tips ul {
+    margin: 6px 0 0 18px;
+    padding: 0;
+}
+
+.guide-tips li {
+    margin-bottom: 4px;
+}
+
+/* Dynamic Table & Badges for Multi-Column Features */
+.exam-table th.th-avg,
+.exam-table td.td-avg,
+.exam-table th.th-rank,
+.exam-table td.td-rank,
+.exam-table th.th-grade,
+.exam-table td.td-grade,
+.exam-table th.th-award,
+.exam-table td.td-award {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.badge-gold {
+    background-color: #fef08a;
+    color: #854d0e;
+    border: 1px solid #eab308;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.82rem;
+}
+
+.badge-silver {
+    background-color: #f1f5f9;
+    color: #475569;
+    border: 1px solid #94a3b8;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.82rem;
+}
+
+.badge-bronze {
+    background-color: #fed7aa;
+    color: #9a3412;
+    border: 1px solid #ea580c;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.82rem;
+}
+
+.badge-honor {
+    background-color: #e0e7ff;
+    color: #3730a3;
+    border: 1px solid #818cf8;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.82rem;
+}
+
+.badge-grade-a {
+    color: #15803d;
+    font-weight: 700;
+    background-color: #dcfce7;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.badge-grade-b {
+    color: #0369a1;
+    font-weight: 700;
+    background-color: #e0f2fe;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.badge-grade-c {
+    color: #b45309;
+    font-weight: 700;
+    background-color: #fef3c7;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.badge-grade-d {
+    color: #c2410c;
+    font-weight: 700;
+    background-color: #ffedd5;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.badge-grade-f {
+    color: #b91c1c;
+    font-weight: 700;
+    background-color: #fee2e2;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.badge-conduct-excel {
+    color: #15803d;
+    background: #dcfce7;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.82rem;
+}
+
+.badge-conduct-good {
+    color: #0369a1;
+    background: #e0f2fe;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.82rem;
+}
+
+.badge-conduct-warn {
+    color: #b91c1c;
+    background: #fee2e2;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.82rem;
+}
+
+/* Multi-column condensed mode for A4 sheet */
+.a4-sheet.multi-col-mode .exam-table th,
+.a4-sheet.multi-col-mode .exam-table td {
+    padding: 4px 3px !important;
+    font-size: 0.82rem !important;
+}
+
+.a4-sheet.multi-col-mode .td-name {
+    font-size: 0.84rem !important;
+}
+
+/* ========================================================
+   Print Stylesheet
+   ======================================================== */
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 10mm;
+    }
+
+    body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .a4-preview-wrapper {
+        padding: 0 !important;
+    }
+
+    .a4-sheet {
+        width: 100% !important;
+        min-height: auto !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    .exam-table {
+        border: 1.5px solid #000000 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .exam-table th,
+    .exam-table td {
+        border: 1px solid #000000 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .pass-circle {
+        border: 1.5px solid #dc2626 !important;
+        color: #dc2626 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .fail-row td {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .fail-row td::after {
+        background-color: #dc2626 !important;
+        height: 2px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    [contenteditable="true"]:hover {
+        outline: none !important;
+        background: transparent !important;
+    }
+
+    .btn-add-verifier,
+    [data-html2canvas-ignore="true"] {
+        display: none !important;
+    }
+}

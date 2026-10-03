@@ -1,0 +1,19 @@
+{
+  "name": "student-exam-system",
+  "version": "1.0.0",
+  "description": "ប្រព័ន្ធពិនិត្យលទ្ធផលសិស្ស - ប្រឡងឡើងថ្នាក់",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "student",
+    "exam",
+    "results",
+    "khmer",
+    "sheetjs"
+  ],
+  "author": "",
+  "license": "ISC"
+}

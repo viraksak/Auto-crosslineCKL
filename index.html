@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ប្រព័ន្ធពិនិត្យលទ្ធផលសិស្ស - បញ្ជីស្រង់ពិន្ទុសិស្សឡើងថ្នាក់</title>
+    <!-- Google Fonts for Authentic Cambodian Government / School Form Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Moul&family=Siemreap&family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=20260927_totalcol">
+    
+    <!-- Local libraries with CDN fallbacks -->
+    <script src="xlsx.full.min.js"></script>
+    <script>
+        if (typeof XLSX === 'undefined') {
+            document.write('<script src="https://cdn.jsdelivr.net/npm/xlsx@0.20.3/dist/xlsx.full.min.js"><\/script>');
+        }
+    </script>
+    <script src="exceljs.min.js"></script>
+    <script>
+        if (typeof ExcelJS === 'undefined') {
+            document.write('<script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"><\/script>');
+        }
+    </script>
+    <script src="html2canvas.min.js"></script>
+    <script>
+        if (typeof html2canvas === 'undefined') {
+            document.write('<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"><\/script>');
+        }
+    </script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Control Header & Toolbar (Hidden from print & A4 export) -->
+        <header class="app-toolbar no-print">
+            <div class="toolbar-title-section">
+                <h1>ប្រព័ន្ធពិនិត្យលទ្ធផលសិស្ស - បញ្ជីស្រង់ពិន្ទុសិស្សឡើងថ្នាក់</h1>
+                <p>ទម្រង់រដ្ឋបាល A4 ផ្លូវការ (ពុម្ពអក្សរ «មូល» ផ្នែកក្បាល និង «Khmer OS Siemreap» ផ្នែកតារាង)</p>
+            </div>
+
+            <!-- Feature Selector & Management Bar -->
+            <div class="toolbar-feature-bar">
+                <div class="feature-bar-left">
+                    <label for="featureSelect" class="feature-label">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        </svg>
+                        <span>មុខងារ / ប្រភេទការប្រឡង៖</span>
+                    </label>
+                    <div class="feature-selector-wrap">
+                        <select id="featureSelect" class="feature-select-dropdown" title="ជ្រើសរើសប្រភេទការប្រឡង ឬទម្រង់ដែលចង់ប្រើ">
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="feature-bar-right">
+                    <!-- Load Sample Data (1-click easy test) -->
+                    <button type="button" class="btn btn-sample" id="loadSampleBtn" title="ផ្ទុកទិន្នន័យគំរូសាកល្បងភ្លាមៗ ងាយស្រួលប្រើប្រាស់">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                        </svg>
+                        <span>ផ្ទុកទិន្នន័យគំរូ (Load Sample)</span>
+                    </button>
+
+                    <!-- Sample Template Download Dropdown -->
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-outline dropdown-toggle" id="sampleTemplateDropdownBtn" title="ទាញយកឯកសារគំរូ Excel / CSV សម្រាប់ទម្រង់នេះ">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            <span>ទាញយកគំរូ (Sample)</span>
+                        </button>
+                        <div class="dropdown-menu" id="sampleTemplateMenu">
+                            <button type="button" class="dropdown-item" id="downloadSampleExcelBtn">
+                                <span>ទាញយកគំរូ Excel (.xlsx)</span>
+                            </button>
+                            <button type="button" class="dropdown-item" id="downloadSampleCsvBtn">
+                                <span>ទាញយកគំរូ CSV (.csv)</span>
+                            </button>
+                            <div class="dropdown-divider"></div>
+                            <button type="button" class="dropdown-item" id="viewSampleGuideBtn">
+                                <span>ពិនិត្យមើលទម្រង់គំរូ (View Guide)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Save Format for Active Feature -->
+                    <button type="button" class="btn btn-save-feature" id="saveFeatureFormatBtn" title="រក្សាទុកទម្រង់ក្បាលទំព័រ បន្ទប់ និងជួរឈរសម្រាប់មុខងារនេះ">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                            <polyline points="7 3 7 8 15 8"></polyline>
+                        </svg>
+                        <span id="saveFeatureBtnText">រក្សាទុកទម្រង់</span>
+                    </button>
+
+                    <!-- Delete Active Format Button (User Requested Function) -->
+                    <button type="button" class="btn btn-danger-outline" id="deleteFeatureFormatBtn" title="លុបទម្រង់បច្ចុប្បន្ននេះចេញ (Delete Format)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                        </svg>
+                        <span>លុបទម្រង់ (Delete)</span>
+                    </button>
+
+                    <!-- Create New Feature Button -->
+                    <button type="button" class="btn btn-primary" id="openCreateFeatureModalBtn" title="បង្កើតមុខងារ ឬទម្រង់ប្រឡងថ្មី និងរក្សាទុកឈ្មោះ">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        <span>បង្កើតទម្រង់ថ្មី (New Feature)</span>
+                    </button>
+
+                    <!-- Manage Features Button -->
+                    <button type="button" class="btn btn-outline" id="openManageFeaturesModalBtn" title="គ្រប់គ្រងទម្រង់ទាំងអស់ (ប្តូរឈ្មោះ, ចម្លង, លុប)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                        <span>គ្រប់គ្រង</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats & Evaluation Rule Row -->
+            <div class="toolbar-stats-row">
+                <div class="rule-mini-badge">
+                    <span class="rule-title">ច្បាប់វាយតម្លៃ៖</span>
+                    <span id="activeFeatureRuleText">ខ្មែរ + គណិត &ge; 100 &rarr; <strong class="text-success">ជាប់</strong> | តិចជាង 100 &rarr; <strong class="text-danger">ធ្លាក់</strong></span>
+                </div>
+                <div class="stats-pills" id="statsPillsContainer">
+                    <div class="pill pill-total">បេក្ខជនសរុប៖ <strong id="totalCount">0</strong> នាក់</div>
+                    <div class="pill pill-pass">ជាប់សរុប៖ <strong id="passCount">0</strong> នាក់</div>
+                    <div class="pill pill-fail">ធ្លាក់សរុប៖ <strong id="failCount">0</strong> នាក់</div>
+                </div>
+            </div>
+
+            <!-- Action Controls Toolbar -->
+            <div class="toolbar-actions">
+                <div class="actions-left">
+                    <!-- File Upload Input -->
+                    <input type="file" id="fileInput" accept=".xlsx, .xls, .csv" style="position: absolute; left: -9999px; opacity: 0; width: 1px; height: 1px;">
+                    <label for="fileInput" class="btn btn-primary" id="uploadBtn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <span>ជ្រើសរើស Excel File</span>
+                    </label>
+
+                    <!-- Search Input -->
+                    <div class="search-input-box">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" id="searchInput" placeholder="ស្វែងរកឈ្មោះ ឬលេខសិស្ស...">
+                        <button type="button" id="clearSearchBtn" style="display: none;">&times;</button>
+                    </div>
+                </div>
+
+                <div class="actions-right">
+                    <!-- Toggle Score Columns (Show/Hide Khmer and Math score columns) -->
+                    <button type="button" class="btn btn-outline" id="toggleScoresBtn" title="បង្ហាញ ឬលាក់ជួរឈរពិន្ទុ (ខ្មែរ/គណិត/សរុប)">
+                        <span id="scoreToggleLabel">បង្ហាញពិន្ទុ (៨ ជួរឈរ)</span>
+                    </button>
+
+                    <!-- Digit Mode Switch -->
+                    <button type="button" class="btn btn-outline" id="toggleDigitBtn" title="ប្តូររវាងលេខខ្មែរ និងលេខអារ៉ាប់">
+                        <span id="digitModeLabel">លេខខ្មែរ (១, ២...)</span>
+                    </button>
+
+                    <!-- Toggle Edit Mode Switch -->
+                    <button type="button" class="btn btn-outline" id="toggleEditBtn" title="បើក ឬបិទការកែសម្រួលទម្រង់">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                        <span id="editModeLabel">កែសម្រួលទម្រង់ (បិទ)</span>
+                    </button>
+
+                    <!-- Template Management Dropdown -->
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-outline dropdown-toggle" id="templateDropdownBtn" title="គ្រប់គ្រងទម្រង់គំរូ (រក្សាទុក / នាំចេញ / កំណត់ឡើងវិញ)">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                                <polyline points="7 3 7 8 15 8"></polyline>
+                            </svg>
+                            <span>គំរូទម្រង់ (Template)</span>
+                        </button>
+                        <div class="dropdown-menu" id="templateMenu">
+                            <button type="button" class="dropdown-item" id="saveTemplateBtn">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                <span>រក្សាទុកគំរូ (Save Template)</span>
+                            </button>
+                            <button type="button" class="dropdown-item" id="exportTemplateBtn">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                <span>ទាញយកឯកសារគំរូ (.json)</span>
+                            </button>
+                            <label for="importTemplateInput" class="dropdown-item" style="cursor: pointer; margin-bottom: 0;">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="17 8 12 3 7 8"></polyline>
+                                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                                </svg>
+                                <span>នាំចូលឯកសារគំរូ (.json)</span>
+                                <input type="file" id="importTemplateInput" accept=".json" style="display: none;">
+                            </label>
+                            <div class="dropdown-divider"></div>
+                            <button type="button" class="dropdown-item text-danger" id="resetTemplateBtn">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="1 4 1 10 7 10"></polyline>
+                                    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                                </svg>
+                                <span>កំណត់គំរូដើមឡើងវិញ (Reset)</span>
+                            </button>
+                            <button type="button" class="dropdown-item text-danger" id="deleteCurrentTemplateBtn">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                                <span>លុបទម្រង់នេះ (Delete Format)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Export A4 Image (User Requested Feature) -->
+                    <button type="button" class="btn btn-image" id="exportA4ImageBtn" title="ទាញយកផ្ទាំងរូបភាព A4 ដូចគំរូបេះបិទ">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                        <span>ទាញយកជារូបភាព A4 (Image)</span>
+                    </button>
+
+                    <!-- Export Dropdown -->
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-outline dropdown-toggle" id="exportDropdownBtn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            <span>នាំចេញ Excel/CSV</span>
+                        </button>
+                        <div class="dropdown-menu" id="exportMenu">
+                            <button type="button" class="dropdown-item" id="exportExcelAllBtn">
+                                <span>នាំចេញ Excel (ទាំងអស់)</span>
+                            </button>
+                            <button type="button" class="dropdown-item" id="exportExcelViewBtn">
+                                <span>នាំចេញ Excel (ទិដ្ឋភាពបច្ចុប្បន្ន)</span>
+                            </button>
+                            <div class="dropdown-divider"></div>
+                            <button type="button" class="dropdown-item" id="exportCsvAllBtn">
+                                <span>នាំចេញ CSV (ទាំងអស់)</span>
+                            </button>
+                            <button type="button" class="dropdown-item" id="exportCsvViewBtn">
+                                <span>នាំចេញ CSV (ទិដ្ឋភាពបច្ចុប្បន្ន)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Print Button -->
+                    <button type="button" class="btn btn-outline" id="printBtn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                            <rect x="6" y="14" width="12" height="8"></rect>
+                        </svg>
+                        <span>បោះពុម្ព (Print)</span>
+                    </button>
+
+                    <!-- Clear Data -->
+                    <button type="button" class="btn btn-danger-outline" id="clearDataBtn" title="សម្អាតទិន្នន័យទាំងអស់">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Status Banner -->
+            <div id="viewStatusMessage" class="view-status-banner" style="display: none;"></div>
+        </header>
+
+        <!-- ========================================================
+             A4 SHEET PREVIEW CONTAINER (Captured by html2canvas & Print)
+             Exact layout, Moul font headers, and Khmer OS Siemreap table
+             ======================================================== -->
+        <main class="a4-preview-wrapper" id="dropZone">
+            <div class="a4-sheet" id="a4Sheet">
+                <!-- Top Official Header (Font: Moul) -->
+                <div class="a4-top-header">
+                    <!-- Left: Education Department & School (Font: Moul) -->
+                    <div class="dept-info font-moul">
+                        <div class="dept-line1" contenteditable="true" id="deptLine1">ការិយាល័យ.អយក ស្រុកចំការលើ</div>
+                        <div class="dept-line2" contenteditable="true" id="deptLine2">វិទ្យាល័យ ហ៊ុន សែន ចំការលើ</div>
+                    </div>
+
+                    <!-- Right: Kingdom of Cambodia & Motto (Font: Moul) -->
+                    <div class="kingdom-info font-moul">
+                        <div class="kingdom-title" contenteditable="true" id="kingdomTitle">ព្រះរាជាណាចក្រកម្ពុជា</div>
+                        <div class="kingdom-motto" contenteditable="true" id="kingdomMotto">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+                        <div class="motto-ribbon">
+                            <svg width="120" height="10" viewBox="0 0 120 10" fill="none">
+                                <path d="M5 5 C 25 1, 40 9, 60 5 C 80 1, 95 9, 115 5" stroke="#000000" stroke-width="1.3" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room & Exam List Title Section (Font: Moul) -->
+                <div class="a4-title-section font-moul">
+                    <div class="room-number" contenteditable="true" id="roomNumber">បន្ទប់ទី១</div>
+                    <div class="main-exam-title">
+                        <h2 class="exam-title-text" contenteditable="true" id="examTitle">បញ្ជីស្រង់ពិន្ទុសិស្សឡើងថ្នាក់ទី ៧</h2>
+                        <div class="exam-session-text font-moul" contenteditable="true" id="examSession">សម័យប្រឡង៖ ២៦ កញ្ញា ២០២៦</div>
+                    </div>
+                    <div class="room-placeholder"></div>
+                </div>
+
+                <!-- Student Table (Font: Khmer OS Siemreap) -->
+                <div class="a4-table-wrapper font-siemreap">
+                    <table class="exam-table" id="studentTable">
+                        <thead>
+                            <tr id="tableHeaderRow">
+                                <th class="th-no" contenteditable="true" data-key="no">លេខ</th>
+                                <th class="th-name" contenteditable="true" data-key="name">គោត្តនាម-នាម</th>
+                                <th class="th-gender" contenteditable="true" data-key="gender">ភេទ</th>
+                                <th class="th-class" contenteditable="true" data-key="fromClass">មកពីថ្នាក់</th>
+                                <th class="th-score col-score" contenteditable="true" data-key="khmer">ខ្មែរ</th>
+                                <th class="th-score col-score" contenteditable="true" data-key="math">គណិត</th>
+                                <th class="th-score col-score col-total" contenteditable="true" data-key="total">សរុប</th>
+                                <th class="th-result" contenteditable="true" data-key="result">លទ្ធផល</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentTableBody">
+                            <!-- Populated dynamically or inline edited -->
+                        </tbody>
+                    </table>
+
+                    <!-- Empty state notice when no data -->
+                    <div id="emptyNotice" class="empty-notice no-print">
+                        <p>មិនទាន់មានទិន្នន័យសិស្សនៅឡើយទេ</p>
+                        <span>សូមចុច «ជ្រើសរើស Excel File» ឬអូសទម្លាក់ឯកសារ Excel/CSV មកទីនេះ</span>
+                    </div>
+                </div>
+
+                <!-- Footer Section (Font: Khmer OS Siemreap) -->
+                <div class="a4-footer-section font-siemreap">
+                    <div class="footer-columns-row">
+                        <!-- Left Side: Verifiers lines (Starts on the equal line as summary on the right) -->
+                        <div class="footer-verifiers-col" id="verifiersCol">
+                            <div class="verifier-line" contenteditable="true">បញ្ចូលពិន្ទុដោយ</div>
+                            <div class="verifier-line" contenteditable="true">ផ្ទៀងផ្ទាត់ពិន្ទុដោយ</div>
+                            <div class="verifier-line" contenteditable="true">ផ្ទៀងផ្ទាត់ចុងក្រោយដោយ</div>
+                            <button type="button" class="btn-add-verifier no-print" id="addVerifierBtn" data-html2canvas-ignore="true" title="បន្ថែមបន្ទាត់ហត្ថលេខា">+ បន្ថែមបន្ទាត់</button>
+                        </div>
+
+                        <!-- Right Side: Top Summary & Bottom Date / Principal Signature -->
+                        <div class="footer-right-col">
+                            <div class="footer-stats-block">
+                                <div class="summary-line" id="summaryLineCandidates">
+                                    <span class="summary-label" contenteditable="true" id="summaryLabel1">បញ្ឈប់បញ្ជីត្រឹមចំនួនបេក្ខជនសរុប : </span><span id="summaryTotal">០</span><span class="summary-unit" contenteditable="true" id="summaryUnit1"> នាក់ក្នុងនោះស្រី : </span><span id="summaryFemale">០</span><span class="summary-end" contenteditable="true" id="summaryEnd1"> នាក់</span>
+                                </div>
+                                <div class="summary-line" id="summaryLinePassed">
+                                    <span class="summary-label" contenteditable="true" id="summaryLabel2">បានប្រឡងជាប់សញ្ញាបត្រសរុបចំនួន </span><span id="summaryPassed">០</span><span class="summary-unit" contenteditable="true" id="summaryUnit2"> នាក់ក្នុងនោះស្រី : </span><span id="summaryPassedFemale">០</span><span class="summary-end" contenteditable="true" id="summaryEnd2"> នាក់</span>
+                                </div>
+                            </div>
+
+                            <div class="footer-bottom-date">
+                                <div class="date-lunar" contenteditable="true" id="dateLunar">ថ្ងៃសៅរ៍ ១៥កើត ខែភទ្របទ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០</div>
+                                <div class="date-solar" contenteditable="true" id="dateSolar">ត្រូវនឹង ថ្ងៃទី២៦ ខែកញ្ញា ឆ្នាំ២០២៦</div>
+                                <div class="sign-principal font-moul" contenteditable="true" id="signTitle">នាយកវិទ្យាល័យ</div>
+                                <div class="principal-sign-space"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- A4 Image Preview Modal -->
+    <div class="modal-overlay" id="imagePreviewModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>ផ្ទាំងរូបភាព A4 ដែលបានបង្កើត (A4 Image Preview)</h3>
+                <button type="button" class="modal-close-btn" id="modalCloseBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img id="modalPreviewImg" class="modal-preview-img" alt="A4 Exam Sheet Preview">
+            </div>
+            <div class="modal-footer">
+                <div class="modal-hint">
+                    ឯកសារត្រូវបានរក្សាទុកក្នុងកុំព្យូទ័រឈ្មោះ <strong>Exam_Result_A4.png</strong> ឬអ្នកអាចចុច Right-Click លើរូបភាព រួចជ្រើសរើស "Save image as..."
+                </div>
+                <div class="modal-footer-actions">
+                    <a id="modalDownloadLink" class="btn btn-primary" download="Exam_Result_A4.png">
+                        <span>ទាញយកម្តងទៀត (Download)</span>
+                    </a>
+                    <button type="button" class="btn btn-outline" id="modalCloseActionBtn">
+                        <span>បិទ (Close)</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create New Feature Modal (Can create new feature and save name) -->
+    <div class="modal-overlay" id="createFeatureModal">
+        <div class="modal-container modal-form-container">
+            <div class="modal-header">
+                <h3>បង្កើតទម្រង់/មុខងារថ្មី (Create New Feature & Save Name)</h3>
+                <button type="button" class="modal-close-btn" id="closeCreateFeatureModalBtn">&times;</button>
+            </div>
+            <div class="modal-body modal-form-body">
+                <form id="createFeatureForm" onsubmit="return false;">
+                    <div class="form-row">
+                        <div class="form-group flex-2">
+                            <label class="form-label" for="newFeatureName">ឈ្មោះមុខងារ / ទម្រង់ថ្មី <span class="text-danger">*</span></label>
+                            <input type="text" id="newFeatureName" class="form-control" placeholder="ឧទាហរណ៍៖ ប្រឡងឆមាសទី២ ថ្នាក់ទី១០ ឬ ប្រឡងសិស្សពូកែគណិត" required>
+                            <span class="form-hint">ឈ្មោះនេះនឹងត្រូវរក្សាទុកក្នុងប្រព័ន្ធ និងបង្ហាញលើបញ្ជីជ្រើសរើស</span>
+                        </div>
+                        <div class="form-group flex-1">
+                            <label class="form-label" for="newFeatureBase">ចម្លងតាមទម្រង់ដើម</label>
+                            <select id="newFeatureBase" class="form-control">
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group flex-2">
+                            <label class="form-label" for="newFeatureExamTitle">ចំណងជើងការប្រឡង (Exam Title លើ A4)</label>
+                            <input type="text" id="newFeatureExamTitle" class="form-control" placeholder="ឧទាហរណ៍៖ បញ្ជីស្រង់ពិន្ទុប្រឡងឆមាសទី២">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label class="form-label" for="newFeatureSession">សម័យប្រឡង</label>
+                            <input type="text" id="newFeatureSession" class="form-control" placeholder="ឧទាហរណ៍៖ សម័យប្រឡង៖ ១៥ កក្កដា ២០២៦">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label class="form-label" for="newFeatureRoom">បន្ទប់ / ថ្នាក់</label>
+                            <input type="text" id="newFeatureRoom" class="form-control" placeholder="ឧទាហរណ៍៖ បន្ទប់ទី០១">
+                        </div>
+                    </div>
+
+                    <div class="form-divider"></div>
+
+                    <div class="form-section-title">
+                        <h4>កំណត់មុខវិជ្ជា និងជួរឈរពិន្ទុ (Score Columns)</h4>
+                        <button type="button" class="btn btn-sm btn-outline" id="addSubjectBtn">+ បន្ថែមមុខវិជ្ជា</button>
+                    </div>
+                    <div id="subjectsListContainer" class="subjects-builder-list">
+                        <!-- Subject rows dynamically generated -->
+                    </div>
+
+                    <div class="form-divider"></div>
+
+                    <div class="form-section-title">
+                        <h4>ជួរឈរគណនាស្វ័យប្រវត្តិ (Calculated Columns)</h4>
+                    </div>
+                    <div class="computed-columns-grid">
+                        <label class="checkbox-pill">
+                            <input type="checkbox" id="calcIncludeTotal" checked>
+                            <span>ពិន្ទុសរុប (Total)</span>
+                        </label>
+                        <label class="checkbox-pill">
+                            <input type="checkbox" id="calcIncludeAverage">
+                            <span>មធ្យមភាគ (Average)</span>
+                        </label>
+                        <label class="checkbox-pill">
+                            <input type="checkbox" id="calcIncludeRank">
+                            <span>ចំណាត់ថ្នាក់ (Rank)</span>
+                        </label>
+                        <label class="checkbox-pill">
+                            <input type="checkbox" id="calcIncludeGrade">
+                            <span>និទ្ទេស A-F (Grade)</span>
+                        </label>
+                        <label class="checkbox-pill">
+                            <input type="checkbox" id="calcIncludeResult" checked>
+                            <span>លទ្ធផល ជាប់/ធ្លាក់ (Result)</span>
+                        </label>
+                    </div>
+
+                    <div class="form-divider"></div>
+
+                    <div class="form-section-title">
+                        <h4>ច្បាប់វាយតម្លៃ ជាប់/ធ្លាក់ (Evaluation Rule)</h4>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label class="form-label" for="newFeatureRuleType">ប្រភេទច្បាប់វាយតម្លៃ</label>
+                            <select id="newFeatureRuleType" class="form-control">
+                                <option value="total_threshold">ជាប់/ធ្លាក់ តាមពិន្ទុសរុប (Total Score &ge; Pass Mark)</option>
+                                <option value="average_threshold">ជាប់/ធ្លាក់ តាមមធ្យមភាគ (Average &ge; Pass Mark)</option>
+                                <option value="rank_honor">ចំណាត់ថ្នាក់ជ័យលាភី (Honor Ranking: Gold, Silver, Bronze)</option>
+                                <option value="attendance_conduct">វត្តមាន និងកម្រិតវិន័យ (Attendance & Conduct)</option>
+                            </select>
+                        </div>
+                        <div class="form-group flex-1" id="passThresholdGroup">
+                            <label class="form-label" for="newFeatureThreshold">ពិន្ទុកំណត់ឱ្យជាប់ (Pass Threshold)</label>
+                            <input type="number" id="newFeatureThreshold" class="form-control" value="100">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" id="cancelCreateFeatureBtn">បោះបង់ (Cancel)</button>
+                <button type="button" class="btn btn-primary" id="saveCreateFeatureBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                        <polyline points="7 3 7 8 15 8"></polyline>
+                    </svg>
+                    <span>រក្សាទុក និងបង្កើតទម្រង់ថ្មី (Save & Create)</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manage Features Modal -->
+    <div class="modal-overlay" id="manageFeaturesModal">
+        <div class="modal-container modal-manage-container">
+            <div class="modal-header">
+                <h3>គ្រប់គ្រងទម្រង់ និងមុខងារទាំងអស់ (Manage All Features)</h3>
+                <button type="button" class="modal-close-btn" id="closeManageFeaturesModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="manageFeaturesList" class="manage-features-list">
+                    <!-- Dynamically rendered feature cards with actions -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="manageCreateNewBtn">+ បង្កើតទម្រង់ថ្មី</button>
+                <button type="button" class="btn btn-outline" id="closeManageActionBtn">បិទ (Close)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sample Format Guide & Download Modal -->
+    <div class="modal-overlay" id="sampleGuideModal">
+        <div class="modal-container modal-guide-container">
+            <div class="modal-header">
+                <h3 id="sampleGuideTitle">គំរូទម្រង់ឯកសារ Excel / CSV (Sample Guide)</h3>
+                <button type="button" class="modal-close-btn" id="closeSampleGuideModalBtn">&times;</button>
+            </div>
+            <div class="modal-body guide-body">
+                <div class="guide-intro">
+                    <p>នេះជាទម្រង់ជួរឈរ (Columns) ដែលត្រូវគ្នានឹងមុខងារបច្ចុប្បន្ន។ អ្នកអាចទាញយកឯកសារគំរូ ឬចុចបញ្ចូលទិន្នន័យគំរូភ្លាមៗ៖</p>
+                </div>
+                <div class="guide-table-preview-wrap">
+                    <table class="guide-preview-table" id="sampleGuidePreviewTable">
+                        <!-- Populated dynamically -->
+                    </table>
+                </div>
+                <div class="guide-tips">
+                    <strong>💡 គន្លឹះងាយស្រួលប្រើ៖</strong>
+                    <ul>
+                        <li>ទាញយកឯកសារ <strong>Excel (.xlsx)</strong> ឬ <strong>CSV (.csv)</strong> ខាងក្រោម រួចបើកវាយបញ្ចូលឈ្មោះ និងពិន្ទុសិស្សជាក់ស្តែង</li>
+                        <li>រក្សាទុកឯកសារ រួចចុចប៊ូតុង <strong>«ជ្រើសរើស Excel File»</strong> លើកម្មវិធី ដើម្បីមើលលទ្ធផលផ្លូវការភ្លាមៗ</li>
+                        <li>អ្នកក៏អាចកែសម្រួលទិន្នន័យ និងពិន្ទុសិស្សផ្ទាល់លើតារាង A4 ដោយចុចលើក្រឡាណាមួយ!</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sample" id="guideLoadSampleActionBtn">⚡ ផ្ទុកទិន្នន័យគំរូនេះ (Load to Table)</button>
+                <div class="modal-footer-actions">
+                    <button type="button" class="btn btn-outline" id="guideDownloadExcelBtn">ទាញយក Excel (.xlsx)</button>
+                    <button type="button" class="btn btn-outline" id="guideDownloadCsvBtn">ទាញយក CSV (.csv)</button>
+                    <button type="button" class="btn btn-outline" id="closeSampleGuideActionBtn">បិទ (Close)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script src="script.js?v=20260927_totalcol"></script>
+</body>
+</html>
